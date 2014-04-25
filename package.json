@@ -1,0 +1,13 @@
+{
+	"name": "express02",
+	"description": "express round 2",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "*",
+		"morgan": "~1.0.0",
+    	"body-parser": "~1.0.0",
+    	"method-override": "~1.0.0",
+		"mongoose": "*"
+	}
+}
