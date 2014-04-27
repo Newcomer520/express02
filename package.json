@@ -1,13 +1,31 @@
 {
-	"name": "express02",
-	"description": "express round 2",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"express": "*",
-		"morgan": "~1.0.0",
-    	"body-parser": "~1.0.0",
-    	"method-override": "~1.0.0",
-		"mongoose": "*"
-	}
+  "name": "express02",
+  "description": "express round 2",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "lsc": "lsc -p gulpfile.ls",
+    "t2": "gulp --require LiveScript test",
+    "bower": "gulp --require LiveScript js-files"
+  },
+  "dependencies": {
+    "express": "*",
+    "morgan": "~1.0.0",
+    "body-parser": "~1.0.0",
+    "method-override": "~1.0.0",
+    "mongoose": "*"
+  },
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-bower": "~0.0.4",
+    "gulp-bower-files": "~0.2.2",
+    "gulp-compass": "^1.1.8",
+    "gulp-livescript": "^0.2.1",
+    "gulp-if": "~0.0.5",
+    "gulp-uglify": "~0.2.1",
+    "LiveScript": "^1.2.0",
+    "gulp-filter": "~0.4.1",
+    "streamqueue": "~0.0.5",
+    "gulp-concat": "^2.2.0"
+  }
 }
