@@ -26,3 +26,4 @@ node_modules
 bower_components
 source/compass/.sass-cache
 #compass/.sass-cache/*
+.bowerrc

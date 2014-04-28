@@ -1,11 +1,12 @@
-require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat]>
+require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass]>
 
 paths = 
 	pub: \public
 	root: __dirname
-	compass: path.join __dirname, 'source/compass'
+	compass: path.join __dirname, \source/compass
 	script: path.join __dirname, \_public/scripts
-	js-vendor: 'vendor/scripts/*.js' #external js files, user imports them directly
+	stylesheet: path.join __dirname, \_public/stylesheets
+	js-vendor: \vendor/scripts/*.js #external js files, user imports them directly
 
 gulp.task 'test' ->
 	file-watched = process.argv[5] || 'gulp.ls'
@@ -20,6 +21,7 @@ do
 #install bower
 gulp.task 'bower' !-> gulp-bower!
 #install bower packages to the desired folder and concat them to one js file
+
 do
 	<-! gulp.task 'js-files', <[bower]>
 	js-files = gulp-bower-files!
@@ -30,6 +32,32 @@ do
 		.pipe gulp-concat 'main.js'
 		.pipe gulp-if is-production, gulp-uglify! 
 		.pipe gulp.dest paths.script
+
+do
+	<-! gulp.task 'compass'
+	gulp.src \./source/compass/sass/*.scss 
+		.pipe gulp-compass do
+			project: paths.compass,
+			css: \_public/stylesheets,
+			sass: \sass
+		.pipe gulp.dest paths.stylesheet
+
+do
+	<-! gulp.task \compass-watch
+	gulp.watch do
+		path.join paths.compass, \sass/*.scss 
+		<[compass]>
+		
+#build
+do
+	<-! gulp.task \build, <[js-files compass]>	
+
+
+
+#dev task
+do
+	<-! gulp.task \dev, <[build compass-watch]>
+
 
 /*
 gulp.task 'js:vendor' <[bower]> ->
