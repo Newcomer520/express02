@@ -1,4 +1,5 @@
-require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass]>
+require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass gulp-util gulp-changed run-sequence gulp-livescript]>
+require! <[gulp-minify-css gulp-rename]>
 
 paths = 
 	pub: \public
@@ -14,18 +15,39 @@ gulp.task 'test' ->
 process.env[\NODE_ENV] ?= 'production'
 is-production = if process.env[\NODE_ENV] is \production then true else false
 
-do
-	<-! gulp.task 'http-server' 
-	require('./app')
+gulp.task 'http-server' ->
+	require('./app.js')
+
+gulp.task 'css', !->
+	gulp-util.log 'fuck u'
+	gulp.src './_public/stylesheets/*.css'
+		.pipe gulp-minify-css!
+		#.pipe gulp-rename {extname: '.min.css'}
+		.pipe gulp.dest paths.stylesheet + \/dist/
 
 #install bower
-gulp.task 'bower' !-> gulp-bower!
+gulp.task 'bower-from-vendor' -> gulp-bower!
 #install bower packages to the desired folder and concat them to one js file
 
-do
-	<-! gulp.task 'js-files', <[bower]>
+
+gulp.task 'bowers', <[bower-from-vendor]>, ->
+	#run-sequence 'bower'
+	css-filter = gulp-filter '**/*.css'
+	#css-filter = gulp-filter (.path is /.css$/)
 	js-files = gulp-bower-files!
+		#.pipe gulp-filter (.path is /\.css$/)
+		.pipe css-filter
+		.pipe gulp-concat 'main.css'
+		.pipe gulp.dest paths.stylesheet
+		.pipe css-filter.restore!
 		.pipe gulp-filter (.path is /\.js$/)
+		
+	#gulp.src ['./_public/stylesheets/*.css']
+		#.pipe gulp-minify-css!
+	#	.pipe gulp.dest paths.stylesheet
+
+
+	gulp-util.log gulp-util.colors.yellow('done')
 
 	streamqueue { +objectMode }
 		.done js-files, gulp.src paths.js-vendor
@@ -33,8 +55,9 @@ do
 		.pipe gulp-if is-production, gulp-uglify! 
 		.pipe gulp.dest paths.script
 
-do
-	<-! gulp.task 'compass'
+
+
+gulp.task 'compass', ->
 	gulp.src \./source/compass/sass/*.scss 
 		.pipe gulp-compass do
 			project: paths.compass,
@@ -42,21 +65,26 @@ do
 			sass: \sass
 		.pipe gulp.dest paths.stylesheet
 
-do
-	<-! gulp.task \compass-watch
+gulp.task \compass-watch ->
 	gulp.watch do
 		path.join paths.compass, \sass/*.scss 
 		<[compass]>
 		
 #build
-do
-	<-! gulp.task \build, <[js-files compass]>	
+gulp.task \build, <[bowers compass]>, ->
+	gulp-util.log 'building.'
+	gulp.src <[./source/app/**/*.ls]>
+	.pipe gulp-livescript {+bare}
+	.pipe gulp.dest './'
 
 
 
 #dev task
-do
-	<-! gulp.task \dev, <[build compass-watch]>
+gulp.task \dev ->
+	run-sequence do
+		\build, 
+		\compass-watch,
+		\http-server
 
 
 /*

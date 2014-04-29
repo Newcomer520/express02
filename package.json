@@ -6,8 +6,9 @@
   "scripts": {
     "lsc": "lsc -p gulpfile.ls",
     "t2": "gulp --require LiveScript test",
-    "bower": "gulp --require LiveScript js-files",
-    "dev": "gulp --require LiveScript dev"
+    "bower": "gulp --require LiveScript bowers",
+    "css": "gulp --require LiveScript css",
+    "dev": "gulp --require LiveScript dev "
   },
   "dependencies": {
     "express": "*",
@@ -27,6 +28,10 @@
     "LiveScript": "^1.2.0",
     "gulp-filter": "~0.4.1",
     "streamqueue": "~0.0.5",
-    "gulp-concat": "^2.2.0"
+    "gulp-concat": "^2.2.0",
+    "gulp-util": "^2.2.14",
+    "gulp-changed": "^0.3.0",
+    "gulp-minify-css": "^0.3.2",
+    "gulp-rename": "^1.2.0"
   }
 }
