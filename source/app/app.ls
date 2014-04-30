@@ -3,7 +3,7 @@ require! <[path express morgan body-parser method-override]>
 
 my-app = express!
 
-port = process.env.port or 3000
+port = process.env.port or process.env.PORT or 3000
 
 my-app.use express.static path.join __dirname, \_public
 my-app.use morgan \dev

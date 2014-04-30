@@ -5,7 +5,7 @@ morgan = require('morgan');
 bodyParser = require('body-parser');
 methodOverride = require('method-override');
 myApp = express();
-port = process.env.port || 3000;
+port = process.env.port || process.env.PORT || 3000;
 myApp.use(express['static'](path.join(__dirname, '_public')));
 myApp.use(morgan('dev'));
 myApp.use(methodOverride());

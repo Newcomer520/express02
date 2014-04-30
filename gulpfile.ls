@@ -57,13 +57,19 @@ gulp.task 'bowers', <[bower-from-vendor]>, ->
 
 
 
-gulp.task 'compass', ->
+gulp.task 'compass', !->
+	gulp-util.log paths.compass
 	gulp.src \./source/compass/sass/*.scss 
 		.pipe gulp-compass do
-			project: paths.compass,
-			css: \_public/stylesheets,
+			project: paths.compass
+			css: \_public/stylesheets
 			sass: \sass
-		.pipe gulp.dest paths.stylesheet
+		.pipe gulp.dest paths.stylesheet            
+
+/*project: paths.compass
+css: \_public/stylesheets
+sass: \sass*/
+		
 
 gulp.task \compass-watch ->
 	gulp.watch do

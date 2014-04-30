@@ -1,21 +1,25 @@
 {
   "name": "express02",
+  "main": "./app.js",
   "description": "express round 2",
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "start": "node ./app.js",
     "lsc": "lsc -p gulpfile.ls",
     "t2": "gulp --require LiveScript test",
     "bower": "gulp --require LiveScript bowers",
     "css": "gulp --require LiveScript css",
-    "dev": "gulp --require LiveScript dev "
+    "dev": "gulp --require LiveScript dev ",
+    "build": "gulp --require LiveScript build"
   },
   "dependencies": {
     "express": "*",
     "morgan": "~1.0.0",
     "body-parser": "~1.0.0",
     "method-override": "~1.0.0",
-    "mongoose": "*"
+    "mongoose": "*",
+    "ejs": "1.0.0"
   },
   "devDependencies": {
     "gulp": "^3.6.2",
@@ -33,5 +37,8 @@
     "gulp-changed": "^0.3.0",
     "gulp-minify-css": "^0.3.2",
     "gulp-rename": "^1.2.0"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
