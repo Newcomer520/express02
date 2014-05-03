@@ -1,0 +1,9 @@
+@import "compass/reset";
+$fg-color: black;
+$bg-color: #FFFFFF;
+
+.test {
+	color: $fg-color;
+	background-color: $bg-color;
+}
+	

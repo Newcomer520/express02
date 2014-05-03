@@ -11,7 +11,8 @@
     "bower": "gulp --require LiveScript bowers",
     "css": "gulp --require LiveScript css",
     "dev": "gulp --require LiveScript dev ",
-    "build": "gulp --require LiveScript build"
+    "build": "gulp --require LiveScript build",
+    "tmp": "livescript ./source/app/app.ls"
   },
   "dependencies": {
     "express": "*",
@@ -19,7 +20,8 @@
     "body-parser": "~1.0.0",
     "method-override": "~1.0.0",
     "mongoose": "*",
-    "ejs": "1.0.0"
+    "ejs": "1.0.0",
+    "jade": "^1.3.1"
   },
   "devDependencies": {
     "gulp": "^3.6.2",
@@ -36,7 +38,14 @@
     "gulp-util": "^2.2.14",
     "gulp-changed": "^0.3.0",
     "gulp-minify-css": "^0.3.2",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "gulp-nodemon": "^1.0.2",
+    "gulp-jshint": "^1.5.5",
+    "gulp-livereload": "^1.3.1",
+    "tiny-lr": "0.0.7",
+    "connect-livereload": "^0.4.0",
+    "nodemon": "^1.0.17",
+    "gulp-watch": "^0.6.4"
   },
   "engines": {
     "node": "0.10.x"
