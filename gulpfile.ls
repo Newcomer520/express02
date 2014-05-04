@@ -40,17 +40,11 @@ gulp.task 'bowers', <[bower-from-vendor]>, ->
 	css-filter = gulp-filter '**/*.css'
 	#css-filter = gulp-filter (.path is /.css$/)
 	js-files = gulp-bower-files!
-		#.pipe gulp-filter (.path is /\.css$/)
 		.pipe css-filter
 		.pipe gulp-concat 'vendor.css'
 		.pipe gulp.dest paths.stylesheet
 		.pipe css-filter.restore!
 		.pipe gulp-filter (.path is /\.js$/)
-		
-	#gulp.src ['./_public/stylesheets/*.css']
-		#.pipe gulp-minify-css!
-	#	.pipe gulp.dest paths.stylesheet
-
 
 	gulp-util.log gulp-util.colors.yellow('done')
 
@@ -78,23 +72,22 @@ gulp.task \compass-watch !->
 	gulp.watch do		
 		path.join paths.compass, 'sass/*.scss'
 		<[compass]>
-#path.join paths.compass, 'sass/*.scss'
-gulp.task 'my-ls' ->
+
+gulp.task 'watch-livescript' !->
+	gulp.watch <[source/**/*.ls]>, <[build-my-ls]>	
+	
+gulp.task 'build-my-ls' ->
 	gulp-util.log 'building changed livescript file..'
 	gulp.src <[./source/**/*.ls]>
 	.pipe gulp-livescript {+bare}
 	.pipe gulp.dest './'
 
 #build
-gulp.task \build, <[bowers compass my-ls]>, ->
+gulp.task \build, <[bowers compass]>, ->
 	
 #dev task
 gulp.task \dev, !->
-
-	gulp.watch do
-		<[source/**/*.ls]>,
-		<[my-ls]>	
-	run-sequence do
+	run-sequence do		
 		\build
 		\compass-watch
-		\http-server	
+		\http-server

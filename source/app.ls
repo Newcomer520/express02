@@ -1,2 +1,2 @@
 require! <[./setting.ls]>
-global.app-setting.start!
+global.app-setting.start! 

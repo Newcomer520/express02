@@ -28,3 +28,7 @@ source/compass/.sass-cache
 #compass/.sass-cache/*
 .bowerrc
 temp
+
+#vendor js or css
+_public/scripts/vendor.js
+_public/stylesheets/vendor.css
