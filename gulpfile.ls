@@ -61,6 +61,8 @@ gulp.task 'compass', !->
 		.pipe gulp-compass do
 			project: path.join __dirname, paths.compass
 			sass: \sass
+		.on 'error', (err) !->
+			gulp-util.log "compass error: #{err}"
 		.pipe gulp.dest paths.stylesheet            
 
 /*project: paths.compass

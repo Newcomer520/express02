@@ -1,9 +1,35 @@
-@import "compass/reset";
+/*@import "compass/reset";*/
+@import "compass/css3";
+
 $fg-color: black;
 $bg-color: #FFFFFF;
+$nav-color: #79ECF0;
 
 .test {
 	color: $fg-color;
 	background-color: $bg-color;
 }
+
+body {
+	padding-top: 50px;
+}
+
+.navbar-lightblue {
+	border: none !important;
+	@include box-shadow($nav-color 0px 5px 10px);
+	@include background(
+		linear-gradient(top, white, #E7FEFF, $nav-color)
+	);
+
+	a {
+		@include transition-property(all);
+		@include transition-duration(1s);
+		@include transition-timing-function(ease-out);
+		&:hover {
+			background-color: $nav-color !important;
+			@include box-shadow($nav-color 0px 0px 20px);
+		}		
+	}
+}
+
 	

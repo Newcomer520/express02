@@ -1,60 +1,41 @@
-/* line 17, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: baseline; }
-
-/* line 22, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html {
-  line-height: 1; }
-
-/* line 24, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-ol, ul {
-  list-style: none; }
-
-/* line 26, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
-/* line 28, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-caption, th, td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle; }
-
-/* line 30, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-q, blockquote {
-  quotes: none; }
-  /* line 103, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-  q:before, q:after, blockquote:before, blockquote:after {
-    content: "";
-    content: none; }
-
-/* line 32, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-a img {
-  border: none; }
-
-/* line 116, ../../../../../../../../usr/local/rvm/gems/ruby-2.1.1/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
-  display: block; }
-
-/* line 5, ../sass/main.scss */
+/*@import "compass/reset";*/
+/* line 8, ../sass/main.scss */
 .test {
   color: black;
   background-color: white; }
+
+/* line 13, ../sass/main.scss */
+body {
+  padding-top: 50px; }
+
+/* line 17, ../sass/main.scss */
+.navbar-lightblue {
+  border: none !important;
+  -webkit-box-shadow: #79ecf0 0px 5px 10px;
+  -moz-box-shadow: #79ecf0 0px 5px 10px;
+  box-shadow: #79ecf0 0px 5px 10px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(50%, #e7feff), color-stop(100%, #79ecf0));
+  background: -webkit-linear-gradient(top, #ffffff, #e7feff, #79ecf0);
+  background: -moz-linear-gradient(top, #ffffff, #e7feff, #79ecf0);
+  background: -o-linear-gradient(top, #ffffff, #e7feff, #79ecf0);
+  background: linear-gradient(top, #ffffff, #e7feff, #79ecf0); }
+  /* line 24, ../sass/main.scss */
+  .navbar-lightblue a {
+    -webkit-transition-property: all;
+    -moz-transition-property: all;
+    -o-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out; }
+    /* line 28, ../sass/main.scss */
+    .navbar-lightblue a:hover {
+      background-color: #79ecf0 !important;
+      -webkit-box-shadow: #79ecf0 0px 0px 20px;
+      -moz-box-shadow: #79ecf0 0px 0px 20px;
+      box-shadow: #79ecf0 0px 0px 20px; }
