@@ -39,3 +39,15 @@ body {
       -webkit-box-shadow: #79ecf0 0px 0px 20px;
       -moz-box-shadow: #79ecf0 0px 0px 20px;
       box-shadow: #79ecf0 0px 0px 20px; }
+
+/* line 35, ../sass/main.scss */
+[ng-cloak] {
+  display: none; }
+
+/* line 39, ../sass/main.scss */
+.search-box {
+  -webkit-border-radius: 5px 5px;
+  -moz-border-radius: 5px 5px;
+  -ms-border-radius: 5px 5px;
+  -o-border-radius: 5px 5px;
+  border-radius: 5px 5px; }

@@ -1,6 +1,7 @@
 RED=\e[0;31m
 NC=\e[0m
 c_branch="none"
+task="build"
 
 #no color
 
@@ -24,5 +25,7 @@ master:
 	else \
 		echo "see ya!"; \
 	fi
+gtask:
+	@gulp --require LiveScript ${task}
 
 

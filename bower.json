@@ -23,21 +23,7 @@
   ],
   "dependencies": {
     "angular": "~1.2.16",
-    "bootstrap": "~3.1.1"
-  },
-  "overrides": {
-    "bootstrap": {
-      "main": [
-          "./dist/css/bootstrap.min.css",
-          "./dist/js/bootstrap.js",
-          "./dist/fonts/glyphicons-halflings-regular.eot",
-          "./dist/fonts/glyphicons-halflings-regular.svg",
-          "./dist/fonts/glyphicons-halflings-regular.ttf",
-          "./dist/fonts/glyphicons-halflings-regular.woff"
-      ],
-      "dependencies": {
-        "jquery": "~1.9.0"
-      }
-    }
+    "bootstrap": "~3.1.1",
+    "requirejs": "~2.1.11"
   }
 }

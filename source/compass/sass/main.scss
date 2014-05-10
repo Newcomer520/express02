@@ -31,5 +31,13 @@ body {
 		}		
 	}
 }
+[ng-cloak]
+{
+	display: none;
+}
+.search-box
+{
+	@include border-radius(5px 5px);
+}
 
 	

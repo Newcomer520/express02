@@ -1,0 +1,8 @@
+extends ../layout.jade 
+block header
+	script.
+		myapp.controller('karma-ctrl', ['$scope', function($scope) {}]);
+block content
+	div(ng-controller="karma-ctrl")
+		h1
+			| test angular app

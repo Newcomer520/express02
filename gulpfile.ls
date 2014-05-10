@@ -1,14 +1,16 @@
 require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass gulp-util gulp-changed run-sequence gulp-livescript]>
-require! <[gulp-minify-css gulp-rename gulp-nodemon gulp-jshint]>
+require! <[gulp-minify-css gulp-rename gulp-nodemon gulp-jshint gulp-jade]>
 
 paths = 
 	app: process.argv[5] or './source/app.ls'
-	pub: \public
+	public: \_public
 	root: __dirname
 	compass: 'source/compass'
 	script: path.join __dirname, \_public/scripts
 	stylesheet: path.join __dirname, \_public/stylesheets
 	js-vendor: \vendor/scripts/*.js #external js files, user imports them directly
+	jade-to-html: <[view/jade/to-html/**/*.jade view/jade/layout.jade]>
+	vendor: path.join __dirname, '_public/vendor'
 
 process.env[\NODE_ENV] ?= 'production'
 is-production = if process.env[\NODE_ENV] is \production then true else false
@@ -34,25 +36,28 @@ gulp.task 'css', !->
 gulp.task 'bower-from-vendor' -> gulp-bower!
 #install bower packages to the desired folder and concat them to one js file
 
-
+#bower changed to destinate to each single folder
 gulp.task 'bowers', <[bower-from-vendor]>, ->
 	#run-sequence 'bower'
-	css-filter = gulp-filter '**/*.css'
+	#css-filter = gulp-filter '**/*.css'
 	#css-filter = gulp-filter (.path is /.css$/)
-	js-files = gulp-bower-files!
-		.pipe css-filter
-		.pipe gulp-concat 'vendor.css'
-		.pipe gulp.dest paths.stylesheet
-		.pipe css-filter.restore!
-		.pipe gulp-filter (.path is /\.js$/)
+	#js-files = gulp-bower-files!
+
+	gulp-bower-files!
+		.pipe gulp.dest paths.vendor
+		#.pipe css-filter
+		#.pipe gulp-concat 'vendor.css'
+		#.pipe gulp.dest paths.stylesheet
+		#.pipe css-filter.restore!
+		#.pipe gulp-filter (.path is /\.js$/)
 
 	gulp-util.log gulp-util.colors.yellow('done')
 
-	streamqueue { +objectMode }
+	/*streamqueue { +objectMode }
 		.done js-files, gulp.src paths.js-vendor
 		.pipe gulp-concat 'vendor.js'
 		.pipe gulp-if is-production, gulp-uglify! 
-		.pipe gulp.dest paths.script
+		.pipe gulp.dest paths.script*/
 
 
 
@@ -84,6 +89,18 @@ gulp.task 'build-my-ls' ->
 	.pipe gulp-livescript {+bare}
 	.pipe gulp.dest './'
 
+gulp.task 'convert-jade-to-html' !->
+	gulp.watch paths.jade-to-html, !->
+		gulp-util.log 'jade-to-html files changed detected'
+		gulp.src paths.jade-to-html[0]
+			.pipe gulp-changed path.join paths.public, './from-jade/'
+			.pipe gulp-jade {}
+			.on 'error', (err) !->
+				gulp-util.log "compass error: #{err}"
+			.pipe gulp.dest path.join paths.public, './from-jade/'
+
+
+
 #build
 gulp.task \build, <[bowers compass]>, ->
 	
@@ -92,4 +109,5 @@ gulp.task \dev, !->
 	run-sequence do		
 		\build
 		\compass-watch
+		\convert-jade-to-html		
 		\http-server
