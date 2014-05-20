@@ -1,5 +1,5 @@
 require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass gulp-util gulp-changed run-sequence gulp-livescript]>
-require! <[gulp-minify-css gulp-rename gulp-nodemon gulp-jshint gulp-jade]>
+require! <[gulp-minify-css gulp-rename gulp-nodemon gulp-jshint gulp-jade gulp-karma]>
 
 paths = 
 	app: process.argv[5] or './source/app.ls'
@@ -93,11 +93,11 @@ gulp.task 'convert-jade-to-html' !->
 	gulp.watch paths.jade-to-html, !->
 		gulp-util.log 'jade-to-html files changed detected'
 		gulp.src paths.jade-to-html[0]
-			.pipe gulp-changed path.join paths.public, './from-jade/'
+			.pipe gulp-changed path.join paths.public, './view/'
 			.pipe gulp-jade {}
 			.on 'error', (err) !->
 				gulp-util.log "compass error: #{err}"
-			.pipe gulp.dest path.join paths.public, './from-jade/'
+			.pipe gulp.dest path.join paths.public, './view/'
 
 
 
@@ -111,3 +111,18 @@ gulp.task \dev, !->
 		\compass-watch
 		\convert-jade-to-html		
 		\http-server
+		\unit-test
+
+#test
+gulp.task 'unit-test', ->
+	gulp.src [
+		#* 'test/test-main.js'
+		#* '_public/scripts/**/*.js'
+		#* '_public/vendor/**/*.js'
+		* 'test/spec/undefined.spec.ls'
+	]
+	.pipe gulp-karma do
+		config-file: 'test/karma.conf.js'
+		action: 'watch'
+	.on 'error', !->
+		gulp-util.log it

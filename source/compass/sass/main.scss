@@ -4,6 +4,9 @@
 $fg-color: black;
 $bg-color: #FFFFFF;
 $nav-color: #79ECF0;
+$navbar-height: 4em;
+$sidebar-width: 250px;
+$mobile-width: 767px;
 
 .test {
 	color: $fg-color;
@@ -11,12 +14,17 @@ $nav-color: #79ECF0;
 }
 
 body {
-	padding-top: 50px;
+	/*padding-top: $navbar-height - 2em;*/
 }
 
-.navbar-lightblue {
+.navbar-lightblue
+{
 	border: none !important;
+	height: $navbar-height;
+	margin-bottom: 0px !important;
+	
 	@include box-shadow($nav-color 0px 5px 10px);
+	
 	@include background(
 		linear-gradient(top, white, #E7FEFF, $nav-color)
 	);
@@ -30,6 +38,20 @@ body {
 			@include box-shadow($nav-color 0px 0px 20px);
 		}		
 	}
+	.navbar-toggle
+	{
+		border-color: $nav-color;
+	}
+	.icon-bar
+	{
+		background-color: $nav-color;
+	}
+	@media (max-width:767px)
+	{
+		height: auto;
+		@include box-shadow($nav-color 0px 1px 0px);
+		background: white;
+	}
 }
 [ng-cloak]
 {
@@ -38,6 +60,132 @@ body {
 .search-box
 {
 	@include border-radius(5px 5px);
+}
+.navbar .navbar-nav
+{
+	li.active
+	{
+		@include box-shadow(rgba(blue, 0.4) 0 0 15px);
+	}
+}
+.main-area
+{
+	
+}
+#wrapper
+{
+	@include transition-property(all);
+	@include transition-duration(0.5s);
+	@include transition-timing-function(ease);
+	padding-left: 250px;
+	padding-top: 5px;
+	
+	> * 
+	{
+		padding-top: 10px;
+	}
+
+	@media (max-width: 767px) 
+	{
+		padding-left: 0px;
+	}
+}
+#wrapper.active
+{
+	position: relative;
+}
+#sidebar
+{
+	position: fixed;
+	width: $sidebar-width;
+	height: 100%;
+	padding-right: 0px;
+
+	margin-left: -($sidebar-width);
+	@include box-shadow($nav-color 0px 5px 10px);
+	@include background(
+		linear-gradient(bottom, white, #E7FEFF, $nav-color, #E7FEFF)
+	);
+	/*background-color: $nav-color;*/
+	/*@include background(
+		linear-gradient(bottom, white, #E7FEFF, $nav-color)
+	);*/
+
+	@media (max-width: $mobile-width) 
+	{
+		left: 0px;
+	}
+
+	ul
+	{
+		list-style-type: none;
+		padding-left: 0px;
+		padding-left: 20px;		
+	}
+}
+depboard.sidebar-item
+{
+	min-width: 200px;
+	letter-spacing: 0px !important;
+	cursor: pointer;
+
+	span
+	{
+		width: 1.1em;
+	}
+}
+
+.chat
+{
+	height: 500px;
+	position: relative;
+	padding-left: 250px;
+
+	.content
+	{
+		width: 100%;		
+		
+	}
+	.list
+	{
+		padding-left: 10px;
+		position: absolute;
+		margin-left: -250px;
+		width: 250px;
+	}
+
+	@media (max-width: $mobile-width) 
+	{
+		padding-left: 0px;
+
+		.list {
+			margin-left: 0px;
+			width: 100%;
+			position: relative;
+		}	
+	}
+}
+.chat-form
+{
+	position: relative;
+	margin-left: 5px;
+	height: 50px;
+	vertical-align: middle;
+
+	.chat-msg
+	{
+		width: 80%;
+		border-radius: 5px;
+		max-width: 500px;
+	}
+	.chat-submit
+	{
+		vertical-align: middle;
+		position: absolute;
+		height: 50%;
+		top: 25%;
+		margin-left: 25px;
+	}
 }
 
 	

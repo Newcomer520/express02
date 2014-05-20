@@ -1,0 +1,13 @@
+div(ng-controller='chat-ctrl')
+	.row.chat
+		.list
+			| chat room list
+		.content
+			h3 
+				| chat room content
+	.row
+		.col-md-12
+			form.chat-form(ng-submit="msgSubmit()")
+				textarea.chat-msg(name="message")
+				input.chat-submit(type="submit", value="Send")
+

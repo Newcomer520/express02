@@ -24,6 +24,10 @@
   "dependencies": {
     "angular": "~1.2.16",
     "bootstrap": "~3.1.1",
-    "requirejs": "~2.1.11"
+    "requirejs": "~2.1.11",
+    "angular-route": "~1.2.16",
+    "angular-mocks": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+    "socket.io-client": "~0.9.16"
   }
 }

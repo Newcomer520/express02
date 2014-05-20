@@ -10,6 +10,7 @@ global.app-setting =
 	root-path: path.join __dirname, '..'
 	app-path: (a-path) -> path.join this.root-path, a-path
 	app-engine: express!
+	app-server: undefined
 	start: !->
 		if this.started then
 			gulp-util.log 'Server started already.'
@@ -17,7 +18,7 @@ global.app-setting =
 		this.started == true
 		this.livereload!
 		app-engine-middleware!
-		my-app.listen express-port
+		this.app-server = my-app.listen express-port
 		console.log "Server running at:#{express-port}!!"
 
 	livereload: !-> 
@@ -47,6 +48,8 @@ console.log "root path: #{app-setting.root-path}"
 #routes..
 default-route = require app-setting.app-path 'source/routes/default'
 default-route(my-app)
+
+
 
 #res.writeHead \Content-Type, content: \text/html
 #res.write 'hello express 4.0'

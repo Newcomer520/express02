@@ -1,4 +1,4 @@
-define(['ngDrtvs'], function(ngDrtvs) {
+	define(['ngDrtvs'], function(ngDrtvs) {
 	ngDrtvs.directive('focusMe', ['$rootScope', function($rootScope) {
 		return {
 			restrict: 'A',
