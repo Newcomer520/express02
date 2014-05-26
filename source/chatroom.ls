@@ -19,7 +19,7 @@ module.exports = !->
 			res.json {rooms: rooms}*/
 
 
-	io := socket-io.listen global.app-setting.app-server
+	io := socket-io.listen global.app-setting.app-server, {log: false}
 	chat = io.of '/chat'
 
 	#create and then join this room
@@ -29,12 +29,11 @@ module.exports = !->
 		socket.emit msg-type.room-list, {'msg': rooms}
 		socket.on 'create-room', (room-name, user-name) !->
 			try
-				room-id = create-room room-name
+				room-id = create-room socket, room-name, user-name
 			catch e
 				socket.emit msg-type.error, e
 				return
 
-			socket.room = room-id
 			socket.user-name = user-name
 			chat.emit msg-type.room-list, { 'msg': rooms}
 			socket.join room-id
@@ -54,13 +53,14 @@ module.exports = !->
 					socket.emit msg-type.server, {'msg': "You have joined the chat room #{room.id}"}
 				else 
 					socket.emit 'error', {'msg': "the room #room-id not existed"}
-
+		socket.on 'disconnect', !->
+			leave-room socket
 
 
 	console.log 'socket-io initialized succefully.'
 
 
-function create-room(name)
+function create-room(socket, name, user-name)
 	do
 		room-id = uid!
 	while _.find rooms, (room) -> room.id == room-id
@@ -68,11 +68,30 @@ function create-room(name)
 	if rooms.length >= 2 #then return {msg: 'the maximum number of rooms has been reached.', err-code: 2}
 		throw 'the maximum number of rooms has been reached.'
 
-	rooms.push do
+	room = 
 		id: room-id
 		name: name
-		users: []
+		users: [
+			* {name: user-name, id: socket.id}
+		]
+	#specify the corresponding room
+	socket.room = room
+	rooms.push do
+		room
 	return room-id
+
+!function leave-room(socket)
+	if typeof socket.room == 'undefined'
+		return
+	room = socket.room
+	#console.log socket.room
+	room.users = _.without(room.users, _.findWhere(room.users, {id: socket.id}))
+	
+	if room.users.length == 0 then
+		rooms := _.without(rooms, room)
+		#console.log "rooms.length: #{rooms.length}"
+	console.log "#{socket.id} disconnected"
+	
 
 function uid
 	ret = 'xxxx'

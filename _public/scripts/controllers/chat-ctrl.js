@@ -5,16 +5,21 @@ define(['ctrlModule'], function(ctrlModule) {
 	chatCtrl.$inject = ['$scope', 'chatRoom', '$modal', '$cookieStore'];
 	function chatCtrl($scope, chatRoom, $modal, $cookieStore) {
 		$scope.roomList = [];
+		$scope.messages = [];
 		/*chatRoom.roomList().success(function(data) {
 			$scope.roomList = data.rooms;
 		})*/
-		chatRoom.on(function() {
-			var args = arguments;
-			if (args.length == 1) {
-				var msg = args[0];
-				console.log(msg.msgType + ' ' + msg.msg);
-			}
-				
+
+		chatRoom.on('room-list', function(data) {
+			$scope.roomList = data.msg;
+			console.log('length of rooms: ' + data.msg.length);
+		});
+		chatRoom.on('server', function(data) {
+			var msg = {};
+			msg.sender = 'server';
+			msg.time = new Date();
+			msg.content = data.msg;
+			$scope.messages.push(msg);
 		});
 		$scope.createRoom = function() {
 			var modalInstance = 
@@ -36,6 +41,9 @@ define(['ctrlModule'], function(ctrlModule) {
 		$scope.msgSubmit = function() {
 			alert('send msg');
 		};
+		$scope.joinRoom = function(roomId) {
+			alert(roomId);
+		}
 	}
 
 	//ctrlModule.controller('create-room-modal-ctrl', createRoomModalCtrl);

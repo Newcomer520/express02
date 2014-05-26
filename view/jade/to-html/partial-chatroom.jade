@@ -9,7 +9,13 @@ div(ng-controller='chat-ctrl')
 							.chat-header
 								span {{room.name}}
 								span.badge {{room.users.length}}
-						| t1
+						ul.list-group
+							li.list-group-item(ng-repeat = "user in room.users")
+								| {{user.name}}
+						//div.label.label-default(ng-repeat = "user in room.users", style="width:100%")
+							| {{user}}
+						button.btn.btn-primary(ng-click="joinRoom(room.id)")
+							| Join
 					accordion-group(ng-show="roomList.length == 0")
 						accordion-heading
 							.chat-header(style="text-align:center;")
@@ -18,7 +24,10 @@ div(ng-controller='chat-ctrl')
 				button.btn.btn-success(ng-click="createRoom()") New Room
 
 		.content
-			div(ng-repeat="msg in msgs")
+			div.well(ng-repeat="msg in messages")
+				span.label.label-default {{msg.sender}}
+				hr
+				div.alert.alert-info {{msg.content}}
 
 	.row
 		.col-md-12

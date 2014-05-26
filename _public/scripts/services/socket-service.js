@@ -22,9 +22,7 @@ define(['io', 'angular'], function(io, angular) {
 
 		//chatRoomFactory.$inject = ['$rootScope'];
 		function chatRoom($rootScope) {
-			var deferServer = $q.defer()
-			,	deferNormal = $q.defer();
-
+			
 			socket = io.connect(baseUrl);
 
 
