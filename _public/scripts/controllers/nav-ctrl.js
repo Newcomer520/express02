@@ -13,8 +13,9 @@ define(['ctrlModule'], function(ctrlModule){
 		});
 
 		$scope.isActive = function(sref) {
-			var pattern = new RegExp('^' + $state.current.name + '\.{0,1}');
-			return pattern.test(sref);
+			var pattern = new RegExp('^' + sref + '\.{0,1}');
+
+			return pattern.test($state.current.name);
 		}
 	}]);
 });

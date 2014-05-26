@@ -152,6 +152,37 @@ depboard.sidebar-item
 		position: absolute;
 		margin-left: -250px;
 		width: 250px;
+		text-align: center;
+		
+		.accordion
+		{
+			margin-top: 10px;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			width: 200px;
+
+			.chat-header {
+				position: relative;
+				:nth-child(1)
+				{
+					display: inline-block;
+					max-width: 200px;
+				}
+				:nth-child(2)
+				{
+					position: absolute;
+					right: 3px;
+				}
+			}
+			.badge {
+				position: absolute;
+				right: 20px;
+			}
+			.btn {
+				width: 100%;
+			}
+		}
 	}
 
 	@media (max-width: $mobile-width) 
@@ -188,4 +219,8 @@ depboard.sidebar-item
 	}
 }
 
-	
+.modal-header
+{
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}

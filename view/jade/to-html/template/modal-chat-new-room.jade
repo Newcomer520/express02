@@ -1,0 +1,14 @@
+form(ng-submit="ok()")
+	.modal-header.btn-primary
+		| Create New Room
+	.modal-body			
+		div Room Name:
+		input(ng-model="form.name", required="")
+		br
+		div Nickname:
+		input(ng-model="form.username", focus-me="", required="")
+	.modal-footer
+		button.btn.btn-primary(type="submit")
+			| OK
+		button.btn.btn-warning(type="button", ng-click="cancel()")
+			| Cancel

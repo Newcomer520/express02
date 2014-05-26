@@ -1,10 +1,25 @@
 div(ng-controller='chat-ctrl')
 	.row.chat
 		.list
-			| chat room list
+			span.label.label-info Current Room List			
+			.accordion
+				accordion(close-others="true")
+					accordion-group(ng-repeat="room in roomList")
+						accordion-heading
+							.chat-header
+								span {{room.name}}
+								span.badge {{room.users.length}}
+						| t1
+					accordion-group(ng-show="roomList.length == 0")
+						accordion-heading
+							.chat-header(style="text-align:center;")
+								span No room avaiable.
+
+				button.btn.btn-success(ng-click="createRoom()") New Room
+
 		.content
-			h3 
-				| chat room content
+			div(ng-repeat="msg in msgs")
+
 	.row
 		.col-md-12
 			form.chat-form(ng-submit="msgSubmit()")
