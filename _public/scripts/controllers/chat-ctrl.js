@@ -1,9 +1,9 @@
-define(['ctrlModule'], function(ctrlModule) {
+define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 	//var chatModule = angular.module('chat-module', ['ui.bootstrap']);
 	ctrlModule.controller('chat-ctrl', chatCtrl);
 
-	chatCtrl.$inject = ['$scope', 'chatRoom', '$modal', '$cookieStore'];
-	function chatCtrl($scope, chatRoom, $modal, $cookieStore) {
+	chatCtrl.$inject = ['$scope', 'chatRoom', '$modal', '$cookieStore', '$window'];
+	function chatCtrl($scope, chatRoom, $modal, $cookieStore, $window) {
 		$scope.roomList = [];
 		$scope.messages = [];
 		/*chatRoom.roomList().success(function(data) {
@@ -42,7 +42,13 @@ define(['ctrlModule'], function(ctrlModule) {
 			alert('send msg');
 		};
 		$scope.joinRoom = function(roomId) {
-			alert(roomId);
+			if (!angular.isDefined(_.findWhere($scope.roomList, {id: roomId}))) {
+				$window.alert('Cannot find the room, id:' + roomId);
+				return false;
+			}
+		}
+		$scope.isInRoom = function(roomId) {
+			return angular.isDefined(_.findWhere($scope.roomList, {id: roomId}));
 		}
 	}
 

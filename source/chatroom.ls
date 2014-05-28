@@ -11,7 +11,9 @@ msg-type =
 	normal: 'normal'
 	room-list: 'room-list'
 	error: 'error'
-
+	received-msg: 'server-callback'
+	client-msg: 'client-message'
+	room-created: 'room-created'
 
 module.exports = !->
 	/*app.route '/chat'
@@ -40,9 +42,11 @@ module.exports = !->
 			socket.emit msg-type.server,  {'msg': "You have joined the chat room #room-name(#room-id)"}
 			socket.broadcast.to room-id .emit msg-type.server, {'msg': "User: #user-name has joined this room!"}
 			
-			socket.on 'message', (data)!->				
+			socket.on msg-type.client-msg, (data)!->				
 				if !data or !data.sender or !data.msg then return
 				chat.in room-id .emit 'message', {'type': msg-type.normal, msg: data.msg, sender: data.sender}
+
+			socket.emit msg-type.room-created, {'msg': "Room '#{socket.room.name}' was created."}
 
 		socket.on 'join-room', (room-id, user-name) !->
 			if room = _.find(rooms, (room) -> room.id == room-id) != undefined

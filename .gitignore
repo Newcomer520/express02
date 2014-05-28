@@ -35,4 +35,5 @@ _public/stylesheets/vendor.css
 _public/vendor
 _public/from-jade
 _public/stylesheets
+_public/view
 makefile

@@ -30,6 +30,7 @@
     "angular-ui-router": "~0.2.10",
     "socket.io-client": "~0.9.16",
     "angular-bootstrap": "~0.11.0",
-    "angular-cookies": "~1.2.16"
+    "angular-cookies": "~1.2.16",
+    "underscore": "~1.6.0"
   }
 }

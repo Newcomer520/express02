@@ -12,7 +12,8 @@ require.config({
 		'ng-lun-lib': 'scripts/ng-lun-lib',
 		'io': 'vendor/socket.io-client/dist/socket.io',
 		'ng-bootstrap': 'vendor/angular-bootstrap/ui-bootstrap-tpls',
-		'ng-cookies': 'vendor/angular-cookies/angular-cookies'
+		'ng-cookies': 'vendor/angular-cookies/angular-cookies',
+		'underscore': 'vendor/underscore/underscore'
 	},
 	shim: {
 		'bootstrap': {
