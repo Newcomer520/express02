@@ -16,7 +16,7 @@ div(ng-controller='chat-ctrl')
 							| {{user}}
 						button.btn.btn-primary(ng-click="joinRoom(room.id)")
 							| Join
-					accordion-group(ng-show="roomList.length == 0")
+					accordion-group(ng-show="roomList.length == 0", is-disabled="true")
 						accordion-heading
 							.chat-header(style="text-align:center;")
 								span No room avaiable.

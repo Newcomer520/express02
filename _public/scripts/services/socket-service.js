@@ -24,7 +24,11 @@ define(['io', 'angular'], function(io, angular) {
 		function chatRoom($rootScope) {
 			
 			socket = io.connect(baseUrl);
-
+			
+			//log the error
+			socket.on('error', function(err) {
+				console.log(err);
+			});
 
 			this.createRoom = function(roomName, userName) {
 				if (!angular.isDefined(socket) || socket.socket.connected != true)

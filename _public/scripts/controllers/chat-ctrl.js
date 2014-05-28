@@ -6,9 +6,7 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 	function chatCtrl($scope, chatRoom, $modal, $cookieStore, $window) {
 		$scope.roomList = [];
 		$scope.messages = [];
-		/*chatRoom.roomList().success(function(data) {
-			$scope.roomList = data.rooms;
-		})*/
+		$scope.currentRoom = undefined;
 
 		chatRoom.on('room-list', function(data) {
 			$scope.roomList = data.msg;
@@ -48,7 +46,9 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 			}
 		}
 		$scope.isInRoom = function(roomId) {
-			return angular.isDefined(_.findWhere($scope.roomList, {id: roomId}));
+			return true;
+			//return _.contains($scope.)
+			//return angular.isDefined(_.findWhere($scope.roomList, {id: roomId}));
 		}
 	}
 
