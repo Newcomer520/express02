@@ -1,6 +1,6 @@
 require! <[http gulp-util]>
-socket-io = require 'socket.io'
-var io, chat
+#socket-io = require 'socket.io'
+#var io, chat
 _ = require 'underscore'
 app = global.app-setting.app-engine
 
@@ -16,28 +16,28 @@ msg-type =
 	room-created: 'room-created'
 
 module.exports = !->
-	/*app.route '/chat'
-		.get  (req, res, next) !->
-			res.json {rooms: rooms}*/
 
 
-	io := socket-io.listen global.app-setting.app-server, {log: false}
+	#io := socket-io.listen global.app-setting.app-server, {log: false}
+	io = global.app-setting.app-io
 	chat = io.of '/chat'
 
 	#create and then join this room
 	
-	chat.on 'connection', (socket) !->
-		#send the current room list
+	chat.on 'connection', (err, socket, session) !->
+		#session id		
+		ssid = socket.handshake.cookies.ssid
+		#send the current room list		
 		socket.emit msg-type.room-list, {'msg': rooms}
 
-		socket.on 'create-room', (room-name, user) !->
+		socket.on 'create-room', (room-name, user-name) !->
 			try
 				room-id = create-room socket, room-name, user-name
 			catch e
 				socket.emit msg-type.error, e
 				return
 
-			socket.user = user
+			socket.user = {name: user-name, sessionId: ssid}
 			
 			join-room socket.room, socket			
 
