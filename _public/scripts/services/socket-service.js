@@ -22,14 +22,26 @@ define(['io', 'angular'], function(io, angular) {
 
 		//chatRoomFactory.$inject = ['$rootScope'];
 		function chatRoom($rootScope) {
-			
-			socket = io.connect(baseUrl);
+			this.connect = function() {
+				
+			}
+			socket = io.connect(baseUrl);	
 			
 			//log the error
 			socket.on('error', function(err) {
 				console.log(err);
 			});
 
+			this.isConnected = function() {
+				return socket.socket.connected;
+			}
+			this.socketId = function() {
+				if (this.isConnected() == false) {
+					return undefined;
+				}
+
+				return socket.socket.sessionid;
+			}
 			this.createRoom = function(roomName, userName) {
 				if (!angular.isDefined(socket) || socket.socket.connected != true)
 					throw 'The web socket is unavailable.';

@@ -31,21 +31,23 @@ module.exports = !->
 		socket.emit msg-type.room-list, {'msg': rooms}
 
 		socket.on 'create-room', (room-name, user-name) !->
+			var room
 			try
-				room-id = create-room socket, room-name, user-name
+				room = create-room room-name
 			catch e
 				socket.emit msg-type.error, e
+				console.log "created room error: #e"
 				return
 
-			socket.user = {name: user-name, sessionId: ssid}
+			socket.user = {name: user-name, socketId: socket.id}
 			
-			join-room socket.room, socket			
+			join-room room, socket		
 
 			chat.emit msg-type.room-list, { 'msg': rooms}
 						
 			
-			socket.emit msg-type.server,  {'msg': "You have joined the chat room #room-name(#room-id)"}
-			socket.broadcast.to room-id .emit msg-type.server, {'msg': "User: #user-name has joined this room!"}
+			socket.emit msg-type.server,  {'msg': "You have joined the chat room #room-name(#{room.id})"}
+			socket.broadcast.to room.id .emit msg-type.server, {'msg': "User: #user-name has joined this room!"}
 			
 			socket.on msg-type.client-msg, (data)!->				
 				if !data or !data.sender or !data.msg then return
@@ -53,10 +55,11 @@ module.exports = !->
 
 			socket.emit msg-type.room-created, {'msg': "Room '#{socket.room.name}' was created."}
 
-		socket.on 'join-room', (room-id, who) !->
+		socket.on 'join-room', (room-id, user-name) !->
 			try
 				if room = _.find(rooms, (room) -> room.id == room-id) != undefined
 					then 
+						who = {name: user-name, sessionId: socket.id}
 						socket.user = who
 
 						/*socket.room = room-id
@@ -72,12 +75,13 @@ module.exports = !->
 
 		socket.on 'disconnect', !->
 			leave-room socket
+			console.log "socket id: #{socket.id} disconnected"
 
 
 	console.log 'socket-io initialized succefully.'
 
 
-function create-room(socket, name, user-name)
+function create-room(name)
 	do
 		room-id = uid!
 	while _.find rooms, (room) -> room.id == room-id
@@ -89,40 +93,44 @@ function create-room(socket, name, user-name)
 		id: room-id
 		name: name
 		users: []
-	#specify the corresponding room
-	socket.room = room
 	rooms.push do
 		room
-	return room-id
+	return room
 
-function join-room(room, socket)
+!function join-room(room, socket)
 	#check if the user existed
-	#if _.contains(room.users, who) == true then 
-	user = _.find(room.users, (user) -> user.sessionId == socket.user.sessionId) 
+	#if _.contains(room.users, who) == true then
+	user = _.find(room.users, (user) -> user.socketId == socket.user.socketId) 
 	if user != undefined then
 		#force to refresh the current user to this socket
 		user = socket.user
-		socket.emit msg-type.server, "You've already been in this room #{room.name}"
-		return
+		socket.emit msg-type.server, {msg: "You've already been in this room #{room.name}"}
+		return false
+
+	leave-room socket
 
 	#user not yet joined the room
 	socket.join room.id
 	socket.room = room	
-	room.users.push user
-	
+	room.users.push socket.user
+	socket.emit 'room-joined', room
+
+	return true
 
 !function leave-room(socket)
 	if typeof socket.room == 'undefined'
 		return
 	room = socket.room
 	#console.log socket.room
-	room.users = _.without(room.users, _.findWhere(room.users, {id: socket.id}))
+	room.users = _.without(room.users, _.findWhere(room.users, {socketId: socket.id}))
 	
 	if room.users.length == 0 then
 		rooms := _.without(rooms, room)
-		#console.log "rooms.length: #{rooms.length}"
-	console.log "#{socket.id} disconnected"
+
+	socket.emit msg-type.server, {msg: "You've left the room(#{room.name})"}
+	console.log "#{socket.id} left room: #{socket.room.name}"
 	
+	socket.room = undefined
 
 function uid
 	ret = 'xxxx'

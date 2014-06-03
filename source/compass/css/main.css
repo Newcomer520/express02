@@ -145,63 +145,72 @@ depboard.sidebar-item {
   height: 500px;
   position: relative;
   padding-left: 250px; }
-  /* line 145, ../sass/main.scss */
+  /* line 144, ../sass/main.scss */
   .chat .content {
-    width: 100%; }
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 2em; }
   /* line 150, ../sass/main.scss */
+  .chat .message {
+    padding: 0px !important;
+    padding-right: 20px;
+    margin-bottom: 1px !important; }
+  /* line 155, ../sass/main.scss */
   .chat .list {
     padding-left: 10px;
     position: absolute;
     margin-left: -250px;
     width: 250px;
     text-align: center; }
-    /* line 158, ../sass/main.scss */
+    /* line 163, ../sass/main.scss */
     .chat .list .accordion {
       margin-top: 10px;
       text-align: left;
       margin-left: auto;
       margin-right: auto;
       width: 200px; }
-      /* line 165, ../sass/main.scss */
+      /* line 170, ../sass/main.scss */
       .chat .list .accordion .chat-header {
         position: relative; }
-        /* line 168, ../sass/main.scss */
+        /* line 173, ../sass/main.scss */
         .chat .list .accordion .chat-header :nth-child(1) {
           display: inline-block;
           max-width: 200px; }
-        /* line 173, ../sass/main.scss */
+        /* line 178, ../sass/main.scss */
         .chat .list .accordion .chat-header :nth-child(2) {
           position: absolute;
           right: 3px; }
-      /* line 178, ../sass/main.scss */
+      /* line 183, ../sass/main.scss */
       .chat .list .accordion .badge {
         position: absolute;
         right: 20px; }
-      /* line 182, ../sass/main.scss */
+      /* line 187, ../sass/main.scss */
       .chat .list .accordion .btn {
         width: 100%; }
   @media (max-width: 767px) {
     /* line 139, ../sass/main.scss */
     .chat {
       padding-left: 0px; }
-      /* line 192, ../sass/main.scss */
+      /* line 197, ../sass/main.scss */
       .chat .list {
         margin-left: 0px;
         width: 100%;
         position: relative; } }
 
-/* line 200, ../sass/main.scss */
+/* line 205, ../sass/main.scss */
 .chat-form {
   position: relative;
+  margin-top: 20px;
   margin-left: 5px;
   height: 50px;
   vertical-align: middle; }
-  /* line 207, ../sass/main.scss */
+  /* line 213, ../sass/main.scss */
   .chat-form .chat-msg {
     width: 80%;
     border-radius: 5px;
     max-width: 500px; }
-  /* line 213, ../sass/main.scss */
+  /* line 219, ../sass/main.scss */
   .chat-form .chat-submit {
     vertical-align: middle;
     position: absolute;
@@ -209,7 +218,7 @@ depboard.sidebar-item {
     top: 25%;
     margin-left: 25px; }
 
-/* line 223, ../sass/main.scss */
+/* line 229, ../sass/main.scss */
 .modal-header {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px; }

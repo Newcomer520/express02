@@ -13,6 +13,7 @@
     "dev": "gulp --require LiveScript dev ",
     "build": "gulp --require LiveScript build",
     "ut": "gulp --require LiveScript unit-test",
+    "server": "gulp --require LiveScript http-server",
     "tmp": "livescript ./source/app/app.ls"
   },
   "dependencies": {

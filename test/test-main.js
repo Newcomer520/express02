@@ -26,7 +26,12 @@ require.config({
     app: 'scripts/app',   
     ngCtrls: 'scripts/controllers/angular-controllers',
     ngDrtvs: 'scripts/directives/angular-directives',
-    ngUIRouter: 'vendor/angular-ui-router/release/angular-ui-router'
+    ngUIRouter: 'vendor/angular-ui-router/release/angular-ui-router',
+    'ng-lun-lib': 'scripts/ng-lun-lib',
+    'io': 'vendor/socket.io-client/dist/socket.io',
+    'ng-bootstrap': 'vendor/angular-bootstrap/ui-bootstrap-tpls',
+    'ng-cookies': 'vendor/angular-cookies/angular-cookies',
+    'underscore': 'vendor/underscore/underscore'
   },
   shim: {
     'ngMock': {
@@ -45,6 +50,16 @@ require.config({
     },
     'ngUIRouter': {
       exports: 'ngUIRouter',
+      deps: ['angular']
+    },
+    'ng-lun-lib': {
+      exports: 'ng-lun-lib',
+      deps: ['angular']
+    },
+    'ng-bootstrap': {
+      deps: ['angular']
+    },
+    'ng-cookies': {
       deps: ['angular']
     }
   },

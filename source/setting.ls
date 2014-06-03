@@ -3,7 +3,8 @@ require! <[connect-livereload]>
 require! <[gulp gulp-livereload gulp-util cookie-parser connect]>
 session = require 'express-session'
 socket-io = require 'socket.io'
-session-socket = require 'session.socket.io-express4'
+#session-socket = require 'session.socket.io-express4'
+session-socket = require './session-socket-c'
 var MemoryStore, CookieParser
 express-root = __dirname
 express-port = process.env.port or process.env.PORT or 3000

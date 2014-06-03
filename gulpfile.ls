@@ -15,11 +15,13 @@ paths =
 process.env[\NODE_ENV] ?= 'production'
 is-production = if process.env[\NODE_ENV] is \production then true else false
 
+
+
 gulp.task 'http-server' ->
 	gulp-nodemon do
 		script: paths.app
 		ext: 'ls'
-		ignore: <[./_public/**/*.js ./bower/**]>
+		ignore: <[./_public/**/*.js ./bower/** *.ls ./test/spec/*.ls]>
 	#.on 'change' ->
 	#gulp.src paths.app
 	#gulp.gulp-jshint
@@ -114,7 +116,8 @@ gulp.task \dev, !->
 		\unit-test
 
 #test
-gulp.task 'unit-test', ->
+gulp.task 'unit-test', ->	
+	#require './source/app'
 	gulp.src [
 		#* 'test/test-main.js'
 		#* '_public/scripts/**/*.js'
@@ -124,5 +127,5 @@ gulp.task 'unit-test', ->
 	.pipe gulp-karma do
 		config-file: 'test/karma.conf.js'
 		action: 'watch'
-	.on 'error', !->
+	.on 'error', (,) !->
 		gulp-util.log it

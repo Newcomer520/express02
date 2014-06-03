@@ -19,6 +19,10 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 			msg.content = data.msg;
 			$scope.messages.push(msg);
 		});
+		chatRoom.on('room-joined', function(room) {
+			$scope.currentRoom = room;
+		});
+
 		$scope.createRoom = function() {
 			var modalInstance = 
 				$modal.open({
@@ -46,7 +50,17 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 			}
 		}
 		$scope.isInRoom = function(roomId) {
-			return true;
+			var socketId = chatRoom.socketId();
+			if (!angular.isDefined(socketId))
+				return false;
+			var currentRoom = $scope.currentRoom;
+			//if didnt join any room 
+			if (!angular.isDefined(currentRoom))
+				return false;
+			
+			return currentRoom.id == roomId;
+
+			//return _.find(currentRoom.users, function(user) {return user.socketId = })
 			//return _.contains($scope.)
 			//return angular.isDefined(_.findWhere($scope.roomList, {id: roomId}));
 		}
