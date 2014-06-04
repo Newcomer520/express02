@@ -24,7 +24,7 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 		});
 
 		$scope.createRoom = function() {
-			var modalInstance = 
+			var modalInstance =
 				$modal.open({
 					templateUrl: 'view/template/modal-chat-new-room.html',
 					size: 'sm',

@@ -10,6 +10,9 @@ module.exports = function(io, sessionStore, cookieParser, key) {
       }.bind(this),
       emit: function(event, data) {
         io.of(namespace).emit(event, data);
+      },
+      in: function(roomName) {
+        return io.of(namespace).in(roomName);
       }
     };
   };

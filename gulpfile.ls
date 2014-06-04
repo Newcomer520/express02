@@ -17,11 +17,12 @@ is-production = if process.env[\NODE_ENV] is \production then true else false
 
 
 
-gulp.task 'http-server' ->
+gulp.task 'http-server' !->
 	gulp-nodemon do
 		script: paths.app
 		ext: 'ls'
-		ignore: <[./_public/**/*.js ./bower/** *.ls ./test/spec/*.ls]>
+		ignore: <[test/spec/*.ls]>
+		#ignore: <[./_public/**/*.js ./bower/** *.ls ./test/spec/*.ls]>
 	#.on 'change' ->
 	#gulp.src paths.app
 	#gulp.gulp-jshint

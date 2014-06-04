@@ -20,7 +20,6 @@ define(['io', 'angular'], function(io, angular) {
 			return new chatRoom($rootScope);
 		}
 
-		//chatRoomFactory.$inject = ['$rootScope'];
 		function chatRoom($rootScope) {
 			this.connect = function() {
 				
@@ -48,7 +47,9 @@ define(['io', 'angular'], function(io, angular) {
 				socket.emit('create-room', roomName, userName);
 			}
 
-
+			this.emit = function(eventName, data) {
+				socket.emit(eventName, data);
+			}
 			this.on = function(eventName, callback) {
 				socket.on(eventName, function() {
 					var args = arguments;

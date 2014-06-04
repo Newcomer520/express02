@@ -50,8 +50,8 @@ module.exports = !->
 			socket.broadcast.to room.id .emit msg-type.server, {'msg': "User: #user-name has joined this room!"}
 			
 			socket.on msg-type.client-msg, (data)!->				
-				if !data or !data.sender or !data.msg then return
-				chat.in room-id .emit 'message', {'type': msg-type.normal, msg: data.msg, sender: data.sender}
+				if !data or !data.msg then return
+				chat.in socket.room.id .emit msg-type.normal, {msg: data.msg, sender: socket.user}
 
 			socket.emit msg-type.room-created, {'msg': "Room '#{socket.room.name}' was created."}
 
