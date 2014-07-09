@@ -32,6 +32,6 @@ div(ng-controller='chat-ctrl')
 	.row
 		.col-md-12
 			form.chat-form(ng-submit="msgSubmit()")
-				textarea.chat-msg(name="message")
-				input.chat-submit(type="submit", value="Send")
+				textarea.chat-msg(name="message" ng-model="currentMsg")
+				input.chat-submit(type="submit", value="Send" ng-disabled="currentRoom == undefined")
 

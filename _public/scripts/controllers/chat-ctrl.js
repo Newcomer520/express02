@@ -19,6 +19,13 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 			msg.content = data.msg;
 			$scope.messages.push(msg);
 		});
+		chatRoom.on('normal', function(data) {
+			var msg = {};
+			msg.sender = data.sender.name;
+			msg.time = new Date();
+			msg.content = data.msg;
+			$scope.messages.push(msg);
+		});
 		chatRoom.on('room-joined', function(room) {
 			$scope.currentRoom = room;
 		});
@@ -41,7 +48,12 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 			});
 		}
 		$scope.msgSubmit = function() {
-			alert('send msg');
+			//alert('send msg');
+			var data = {
+					msg: $scope.currentMsg
+			};
+			chatRoom.emit('client-message', data);
+			$scope.currentMsg = '';
 		};
 		$scope.joinRoom = function(roomId) {
 			if (!angular.isDefined(_.findWhere($scope.roomList, {id: roomId}))) {

@@ -11,11 +11,14 @@ define <[ngMock scripts/services/socket-service underscore]>, (mock, socketServi
 		beforeEach inject (_chatRoom_) !->
 			chatRoom := _chatRoom_
 		
+		#afterEach !->
+			#chatRoom.disconnect!
 
 		it 'basic utility check:', !->
 			expect(chatRoom.isConnected).toBeDefined!
 			expect(chatRoom.on).toBeDefined!
 			expect(chatRoom.emit).toBeDefined!
+			expect(chatRoom.disconnect).toBeDefined!
 		it 'connect to server', !->
 			runs !->
 			waitsFor do
@@ -23,14 +26,15 @@ define <[ngMock scripts/services/socket-service underscore]>, (mock, socketServi
 				"The socket should connect.."
 				1500
 
-		describe 'create room ', (done) !->
+		xdescribe 'create room ', (done) !->
 						
 			beforeEach create-room
-				
+			afterEach !->
+				chatRoom.disconnect!
 
 			it 'room could be created', !->
 				expect(spy.callback).toHaveBeenCalled!
-			it 'the name of room should be jasmine', !->
+			#it 'the name of room should be jasmine', !->
 				expect(rooms[0].name).toBe('jasmine')
 
 			
@@ -49,24 +53,20 @@ define <[ngMock scripts/services/socket-service underscore]>, (mock, socketServi
 						'server broadcasted '
 						2500
 					chatRoom.on 'normal', (data) !->
-						console.log data.msg
+						console.log data.msg + ' swhy? ' + rooms[0].users.length + ' ' + data.sender.socketId
 						msg-data:= data
 						got-msg := true								
 
 				it 'should get msg sent by server here', !->
 
-					
-					
-
 					expect(msg-data).toBeDefined!
-					#expect(msg-data.msg).toBe 'hello moto'
+					expect(msg-data.msg).toBe 'hello moto'
 					
 
 		!function create-room
 			spy :=
 				callback: !-> this.gotOn = true
 			spyOn spy, 'callback'
-				
 			chatRoom.on 'room-list', (data) !->
 				rooms := data.msg
 				if rooms.length == 1 then

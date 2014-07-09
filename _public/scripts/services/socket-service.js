@@ -46,6 +46,9 @@ define(['io', 'angular'], function(io, angular) {
 					throw 'The web socket is unavailable.';
 				socket.emit('create-room', roomName, userName);
 			}
+			this.disconnect = function() {
+				socket.disconnect();
+			}
 
 			this.emit = function(eventName, data) {
 				socket.emit(eventName, data);
