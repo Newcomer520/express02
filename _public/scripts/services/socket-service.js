@@ -15,21 +15,41 @@ define(['io', 'angular'], function(io, angular) {
 
 		this.$get = chatRoomFactory;
 
-		chatRoomFactory.$inject = ['$rootScope'];
-		function chatRoomFactory($rootScope) {
-			return new chatRoom($rootScope);
+		chatRoomFactory.$inject = ['$rootScope', '$q', '$interval'];
+		function chatRoomFactory($rootScope, $q, $interval) {
+			return new chatRoom($rootScope, $q, $interval);
 		}
 
-		function chatRoom($rootScope) {
+		function chatRoom($rootScope, $q, $interval) {
 			this.connect = function() {
-				
-			}
-			socket = io.connect(baseUrl);	
+				var deferred = $q.defer()
+				,	terminateFn
+				,	total = 0;
+
+				socket = io.connect(baseUrl);
+				/*
+					restricted in 5 seconds to connect to server
+				*/
+				terminator = $interval(function() {
+					console.log(socket.socket.connected);
+					total += 500;
+					if (socket.socket.connected) {
+						deferred.resolve('connected to server.');
+						$interval.cancel(terminator);
+					}
+					if (total >= 5000) {
+						deferred.reject('timeout to connect to server.');
+						$interval.cancel(terminator);	
+					}
+					
+				}, 500, 10);
+				return deferred.promise;
+			}			
 			
 			//log the error
-			socket.on('error', function(err) {
+			/*socket.on('error', function(err) {
 				console.log(err);
-			});
+			});*/
 
 			this.isConnected = function() {
 				return socket.socket.connected;
@@ -42,9 +62,13 @@ define(['io', 'angular'], function(io, angular) {
 				return socket.socket.sessionid;
 			}
 			this.createRoom = function(roomName, userName) {
+
 				if (!angular.isDefined(socket) || socket.socket.connected != true)
-					throw 'The web socket is unavailable.';
+					throw 'The web socket is unavailable.';				
 				socket.emit('create-room', roomName, userName);
+			}
+			this.joinRoom = function(roomId, userName) {
+				socket.emit('join-room', roomId, userName);
 			}
 			this.disconnect = function() {
 				socket.disconnect();
@@ -53,7 +77,7 @@ define(['io', 'angular'], function(io, angular) {
 			this.emit = function(eventName, data) {
 				socket.emit(eventName, data);
 			}
-			this.on = function(eventName, callback) {
+			this.on = function(eventName, callback) {				
 				socket.on(eventName, function() {
 					var args = arguments;
 					$rootScope.$apply(function() {
@@ -61,6 +85,7 @@ define(['io', 'angular'], function(io, angular) {
 					});					
 				});
 			}
+			this.getsocket = function() { return socket; }
 		}
 	}
 

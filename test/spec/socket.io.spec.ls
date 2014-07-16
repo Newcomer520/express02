@@ -1,18 +1,36 @@
-define <[ngMock scripts/services/socket-service underscore]>, (mock, socketService, _) !->
+define <[ngMock scripts/services/socket-service underscore io]>, (mock, socketService, _, io) !->
 	describe 'socket.io service testing', (,) !->
-		var chatRoom, spy
-		rooms = []		
+		var chatRoom, spy, $interval, baseUrl
+		baseUrl = 'http://localhost:3000/chat'
+		rooms = []	
 		gotCallback = false			
 		msg-to-be-sent = 'jasmine msg here'
 
 		beforeEach module socketService.name		
 		beforeEach module (chatRoomProvider) !->
-			chatRoomProvider.setBaseUrl('http://localhost:3000/chat')
-		beforeEach inject (_chatRoom_) !->
+			chatRoomProvider.setBaseUrl(baseUrl)
+		beforeEach inject (_chatRoom_, _$interval_) !->
 			chatRoom := _chatRoom_
+			$interval := _$interval_
 		
-		#afterEach !->
-			#chatRoom.disconnect!
+		#connect to server
+		beforeEach !->
+			runs !->
+				chatRoom.connect!
+			waitsFor do
+				-> 
+					return chatRoom.isConnected!
+				'connected to server successfully'
+				2500
+		
+		afterEach !->
+			chatRoom.disconnect!
+
+
+				
+
+			
+							
 
 		it 'basic utility check:', !->
 			expect(chatRoom.isConnected).toBeDefined!
@@ -26,20 +44,76 @@ define <[ngMock scripts/services/socket-service underscore]>, (mock, socketServi
 				"The socket should connect.."
 				1500
 
-		xdescribe 'create room ', (done) !->
-						
-			beforeEach create-room
-			afterEach !->
-				chatRoom.disconnect!
+		describe 'create room ', (,) !->			
+			it 'should create a room', !->
+				runs !->									
+					chatRoom.on 'server', (data) !->
+						console.log 'servermsg: ' + data.msg
+					chatRoom.on 'room-list', (data) !->
+						console.log "length of rooms:#{data.msg.length}"
+						rooms := data.msg
+						rooms.every (room) !->
+							if room.name == 'jasmine'
+								#roomId := room.id
+								gotCallback := true
+								#console.log "#{creator.socket.sessionid} #{chatRoom.socketId()}"
+					chatRoom.createRoom 'jasmine', 'usertest'
+					#chatRoom.emit 'create-room', 'jasmine', 'creator'
+				waitsFor do
+					-> 
+						return gotCallback
+					'create room successfully' 
+					2500		
+			
 
-			it 'room could be created', !->
-				expect(spy.callback).toHaveBeenCalled!
-			#it 'the name of room should be jasmine', !->
-				expect(rooms[0].name).toBe('jasmine')
+		xdescribe 'join room', (,) !->
+			#create room
+			var roomId, creator
+			#beforeEach module socketService.name		
+			
+			beforeEach !->
+				creator :=  io.connect(baseUrl, {'force new connection': true})
+
+			
+			beforeEach !->
+				gotCallback = false
+				creator.on 'room-list', (data) !->
+					rooms := data.msg
+					rooms.every (room) !->
+						if room.name == 'jasmine'
+							roomId := room.id
+							gotCallback := true
+							#console.log "#{creator.socket.sessionid} #{chatRoom.socketId()}"
+				runs !->				
+					#chatRoom.createRoom 'jasmine', 'usertest'					
+
+					creator.emit 'create-room', 'jasmine', 'creator'
+				waitsFor do
+					-> return gotCallback
+					'create room successfully' 
+					2500
+
+			it 'should be the test of joining room', !->
+				var msgReceived, gotCallback
+
+				gotCallback = false
+				chatRoom.on 'server', (data) !->
+					#console.log 'server call back: '  + data.msg
+					msgReceived := data.msg
+					gotCallback := data.msg == "You have joined the chat room #{roomId}"
+				runs !->
+					#console.log chatRoom.join
+					chatRoom.joinRoom roomId, 'joiner'
+				waitsFor do
+					-> return gotCallback
+					'joined room'
+					2500
+
+				
 
 			
 
-		describe 'client sends message', (,) !->
+		xdescribe 'client sends message', (,) !->
 				got-msg = false
 				var msg-data
 
@@ -69,14 +143,17 @@ define <[ngMock scripts/services/socket-service underscore]>, (mock, socketServi
 			spyOn spy, 'callback'
 			chatRoom.on 'room-list', (data) !->
 				rooms := data.msg
-				if rooms.length == 1 then
-					spy.callback()
-					gotCallback := true
+				console.log rooms
+				rooms.every (room) !->
+					console.log rooms.length
+					if room.name == 'jasmine'
+						spy.callback()
+						gotCallback := true
+			runs !->				
+				chatRoom.createRoom 'jasmine', 'usertest'					
 
-			runs !->
-				chatRoom.createRoom 'jasmine', 'user-test'
 			waitsFor do
-				-> return gotCallback #spy.gotOn 
+				-> return gotCallback #spy.gotOn  
 				'create room successfully' 
 				2500
 

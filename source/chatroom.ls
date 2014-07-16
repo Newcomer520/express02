@@ -24,13 +24,13 @@ module.exports = !->
 
 	#create and then join this room
 	
-	chat.on 'connection', (err, socket, session) !->
+	chat.on 'connection', (err, socket, session) !->		
 		#session id		
 		ssid = socket.handshake.cookies.ssid
 		#send the current room list		
-		socket.emit msg-type.room-list, {'msg': rooms}
-
-		socket.on 'create-room', (room-name, user-name) !->
+		chat.emit msg-type.room-list, {'msg': rooms}
+		
+		socket.on 'create-room', (room-name, user-name) !->			
 			var room
 			try
 				room = create-room room-name
@@ -38,14 +38,14 @@ module.exports = !->
 				socket.emit msg-type.error, e
 				console.log "created room error: #e"
 				return
-
+			
 			socket.user = {name: user-name, socketId: socket.id}
 			
 			join-room room, socket		
 
-			chat.emit msg-type.room-list, { 'msg': rooms}
-						
-			
+			socket.emit msg-type.room-list, { 'msg': rooms}
+			socket.broadcast.emit msg-type.room-list, { 'msg': rooms}
+			gulp-util.log(rooms)			
 			socket.emit msg-type.server,  {'msg': "You have joined the chat room #room-name(#{room.id})"}
 			socket.broadcast.to room.id .emit msg-type.server, {'msg': "User: #user-name has joined this room!"}
 			
@@ -55,18 +55,19 @@ module.exports = !->
 
 			socket.emit msg-type.room-created, {'msg': "Room '#{socket.room.name}' was created."}
 
-		socket.on 'join-room', (room-id, user-name) !->
+		socket.on 'join-room', (room-id, user-name) !->					
 			try
-				if room = _.find(rooms, (room) -> room.id == room-id) != undefined
+				if (room = _.find(rooms, (room) -> room.id == room-id)) != undefined
 					then 
-						who = {name: user-name, sessionId: socket.id}
+						who = {name: user-name, socketId: socket.id}						
 						socket.user = who
 
 						/*socket.room = room-id
 						socket.user-name = user-name
 						socket.join room-id*/
-						join-room room, socket
-						socket.emit msg-type.server, {'msg': "You have joined the chat room #{room.id}"}
+						if join-room room, socket
+							socket.emit msg-type.server, {'msg': "You have joined the chat room #{room.id}"}
+
 					else 
 						socket.emit msg-type.error, {'msg': "the room #room-id not existed"}
 			catch e
@@ -95,6 +96,7 @@ function create-room(name)
 		users: []
 	rooms.push do
 		room
+
 	return room
 
 !function join-room(room, socket)
@@ -102,17 +104,19 @@ function create-room(name)
 	#if _.contains(room.users, who) == true then
 	user = _.find(room.users, (user) -> user.socketId == socket.user.socketId) 
 	if user != undefined then
-		#force to refresh the current user to this socket
+
+		#force to refresh the current user to this socket		
 		user = socket.user
 		socket.emit msg-type.server, {msg: "You've already been in this room #{room.name}"}
+		gulp-util
 		return false
 
 	leave-room socket
-
 	#user not yet joined the room
 	socket.join room.id
 	socket.room = room	
 	room.users.push socket.user
+
 	socket.emit 'room-joined', room
 
 	return true
@@ -124,7 +128,7 @@ function create-room(name)
 	#console.log socket.room
 	room.users = _.without(room.users, _.findWhere(room.users, {socketId: socket.id}))
 	
-	if room.users.length == 0 then
+	if _.isUndefined(room.users) || room.users.length == 0 then
 		rooms := _.without(rooms, room)
 
 	socket.emit msg-type.server, {msg: "You've left the room(#{room.name})"}
