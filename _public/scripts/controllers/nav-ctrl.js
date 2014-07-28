@@ -1,4 +1,5 @@
-define(['ctrlModule'], function(ctrlModule){
+define(['namespace'], function(){
+	var ctrlModule = angular.module('ctrlModule');
 	ctrlModule.controller('nav-ctrl', ['$scope', '$location', '$state', function($scope, $location, $state) {
 				
 		$scope.items = [

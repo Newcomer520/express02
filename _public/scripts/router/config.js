@@ -1,5 +1,6 @@
-define(['angular', 'ngUIRouter'], function(angular, ngUIRouter) {
-	var router = angular.module('routers', ['ui.router']);
+define(['namespace'], function(namespace) {
+	'use strict';
+	var router = angular.module('routerModule');
 	router.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('/');
 		$stateProvider

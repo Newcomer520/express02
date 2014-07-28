@@ -1,5 +1,5 @@
-define(['io', 'angular'], function(io, angular) {
-	var services = angular.module('services', [])
+define(['io', 'namespace'], function(io) {
+	var services = angular.module('serviceModule');
 	//,   url = "http://localhost:3000/chat"
 	//,   socket = io.connect(url)
 	

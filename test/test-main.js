@@ -18,20 +18,19 @@ require.config({
   // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base/_public',
   paths: {
-    ngMock: '../bower_components/angular-mocks/angular-mocks',
-    jquery: 'vendor/jquery/dist/jquery',
-    angular: 'vendor/angular/angular',
-    ngRoute: 'vendor/angular-route/angular-route',
-    bootstrap: 'vendor/bootstrap/dist/js/bootstrap',
-    app: 'scripts/app',   
-    ngCtrls: 'scripts/controllers/angular-controllers',
-    ngDrtvs: 'scripts/directives/angular-directives',
-    ngUIRouter: 'vendor/angular-ui-router/release/angular-ui-router',
-    'ng-lun-lib': 'scripts/ng-lun-lib',
-    'io': 'vendor/socket.io-client/dist/socket.io',
+    'ngMock': '../bower_components/angular-mocks/angular-mocks',
+    'jquery': 'vendor/jquery/dist/jquery',
+    'angular': 'vendor/angular/angular',
+    'ngRoute': 'vendor/angular-route/angular-route',
+    'ngUIRouter': 'vendor/angular-ui-router/release/angular-ui-router',
+    'bootstrap': 'vendor/bootstrap/dist/js/bootstrap',
     'ng-bootstrap': 'vendor/angular-bootstrap/ui-bootstrap-tpls',
     'ng-cookies': 'vendor/angular-cookies/angular-cookies',
-    'underscore': 'vendor/underscore/underscore'
+    'underscore': 'vendor/underscore/underscore',   
+    'app': 'scripts/app',   
+    'ng-lun-lib': 'scripts/ng-lun-lib',
+    'io': 'vendor/socket.io-client/dist/socket.io',   
+    'namespace': 'scripts/namespace'
   },
   shim: {
     'ngMock': {

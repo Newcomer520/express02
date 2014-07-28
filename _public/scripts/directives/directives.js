@@ -1,7 +1,7 @@
 define([
-	'ngDrtvs',
 	'scripts/directives/focus-me'
-	], function(ngDrtvs) {
-		return ngDrtvs;
+	], function() {
+		var drtvModule = angular.module('drtvModule');
+		return drtvModule;
 	}
 );

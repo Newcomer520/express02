@@ -1,5 +1,6 @@
-	define(['ngDrtvs'], function(ngDrtvs) {
-	ngDrtvs.directive('focusMe', ['$rootScope', function($rootScope) {
+define(['namespace'], function() {
+	var drtvModule = angular.module('drtvModule');
+	drtvModule.directive('focusMe', ['$rootScope', function($rootScope) {
 		return {
 			restrict: 'A',
 			scope: true,

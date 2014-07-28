@@ -1,5 +1,5 @@
-define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
-	//var chatModule = angular.module('chat-module', ['ui.bootstrap']);
+define(['underscore', 'namespace', 'ng-bootstrap'], function(_) {
+	var ctrlModule = angular.module('ctrlModule');
 	ctrlModule.controller('chat-ctrl', chatCtrl);
 
 	chatCtrl.$inject = ['$scope', 'chatRoom', '$modal', '$cookieStore', '$window'];
@@ -7,7 +7,16 @@ define(['underscore', 'ctrlModule'], function(_, ctrlModule) {
 		$scope.roomList = [];
 		$scope.messages = [];
 		$scope.currentRoom = undefined;
+		$scope.userName = angular.isDefined($cookieStore.get('username')) ? $cookieStore.get('username') : undefined;
 
+		chatRoom.connect().then(
+			function() {}, //success
+			function() { 
+				var error = 'failed to connect to the chat server.';
+				alert(error); 
+				throw error
+			} //connect to server failed
+		)
 		chatRoom.on('room-list', function(data) {
 			$scope.roomList = data.msg;
 			console.log('length of rooms: ' + data.msg.length);

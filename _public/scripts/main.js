@@ -4,16 +4,15 @@ require.config({
 		'jquery': 'vendor/jquery/dist/jquery',
 		'angular': 'vendor/angular/angular',
 		'ngRoute': 'vendor/angular-route/angular-route',
-		'bootstrap': 'vendor/bootstrap/dist/js/bootstrap',
-		'app': 'scripts/app',		
-		'ctrlModule': 'scripts/controllers/ctrl-module',
-		'ngDrtvs': 'scripts/directives/angular-directives',
 		'ngUIRouter': 'vendor/angular-ui-router/release/angular-ui-router',
-		'ng-lun-lib': 'scripts/ng-lun-lib',
-		'io': 'vendor/socket.io-client/dist/socket.io',
+		'bootstrap': 'vendor/bootstrap/dist/js/bootstrap',
 		'ng-bootstrap': 'vendor/angular-bootstrap/ui-bootstrap-tpls',
 		'ng-cookies': 'vendor/angular-cookies/angular-cookies',
-		'underscore': 'vendor/underscore/underscore'
+		'underscore': 'vendor/underscore/underscore',		
+		'app': 'scripts/app',		
+		'ng-lun-lib': 'scripts/ng-lun-lib',
+		'io': 'vendor/socket.io-client/dist/socket.io',		
+		'namespace': 'scripts/namespace'
 	},
 	shim: {
 		'bootstrap': {
@@ -44,12 +43,8 @@ require.config({
 });
 
 
-require([
-	'angular',
-	'bootstrap',
-	'app'
-	], 
-	function(angular, bootstrap, app) {
+require(['app'], 
+	function(app) {
 		angular.bootstrap(document.body, [app.name]);
 	}
 );
