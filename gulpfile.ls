@@ -1,5 +1,6 @@
 require! <[path gulp gulp-if gulp-uglify gulp-filter gulp-bower gulp-bower-files streamqueue gulp-concat gulp-compass gulp-util gulp-changed run-sequence gulp-livescript]>
 require! <[gulp-minify-css gulp-rename gulp-nodemon gulp-jshint gulp-jade gulp-karma]>
+templateCache = require('gulp-angular-templatecache')
 
 paths = 
 	app: process.argv[5] or './source/app.ls'
@@ -10,6 +11,7 @@ paths =
 	stylesheet: path.join __dirname, \_public/stylesheets
 	js-vendor: \vendor/scripts/*.js #external js files, user imports them directly
 	jade-to-html: <[view/jade/to-html/**/*.jade view/jade/layout.jade]>
+	template-cache: \_public/scripts/
 	vendor: path.join __dirname, '_public/vendor'
 
 process.env[\NODE_ENV] ?= 'production'
@@ -98,6 +100,8 @@ gulp.task 'convert-jade-to-html' !->
 		gulp.src paths.jade-to-html[0]
 			.pipe gulp-changed path.join paths.public, './view/'
 			.pipe gulp-jade {}
+			.pipe templateCache!
+			.pipe gulp.dest paths.template-cache
 			.on 'error', (err) !->
 				gulp-util.log "compass error: #{err}"
 			.pipe gulp.dest path.join paths.public, './view/'

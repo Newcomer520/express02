@@ -37,3 +37,6 @@ _public/from-jade
 _public/stylesheets
 _public/view
 makefile
+
+#template
+_public/scripts/templates.js

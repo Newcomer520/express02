@@ -41,7 +41,7 @@
     "gulp-if": "~0.0.5",
     "gulp-uglify": "~0.2.1",
     "LiveScript": "^1.2.0",
-    "gulp-filter": "~0.4.1",
+    "gulp-filter": "~1.0.0",
     "streamqueue": "~0.0.5",
     "gulp-concat": "^2.2.0",
     "gulp-util": "^2.2.14",
